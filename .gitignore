@@ -3,4 +3,5 @@
 /androidApp/build/
 /build/
 /shared/build/
+.idea
 /shared/build/classes/kotlin/iosSimulatorArm64/main/klib/
