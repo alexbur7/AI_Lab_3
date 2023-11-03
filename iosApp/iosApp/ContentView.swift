@@ -61,11 +61,10 @@ struct ContentView: View {
     private let height = UIScreen.main.bounds.height
     
     @State private var isEditableField = true
-    private let fieldProcessor: CircleFieldProcessor
+    private let fieldProcessor: CircleFieldProcessor = CircleFieldProcessor()
     
     init(isEditableField: Bool = true) {
         self.isEditableField = isEditableField
-        self.fieldProcessor = CircleFieldProcessor(circleRadius: Float(circleRadius), padding: Float(padding))
         self.initialField = [CircleColumn]()
         self.modifiableField = [CircleColumn]()
         let data = initialState(processor: fieldProcessor)
@@ -102,8 +101,8 @@ struct ContentView: View {
                 Text("Сгенерировать заново").font(.headline)
             }.buttonStyle(MaterialButtonStyle())
 
-
-            Toggle("Сменить конфигурацию", isOn: $isEditableField)
+            let toggleText = if(isEditableField) {"Посмотреть исходный вариант" }else {"Продолжить преобразования"}
+            Toggle(toggleText, isOn: $isEditableField)
                 .padding(8)
         }
     }

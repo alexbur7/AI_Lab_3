@@ -29,11 +29,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.alexbur.ai_lab_3.android.R
-import ru.alexbur.ai_lab_3.data.CIRCLE_RADIUS
+import ru.alexbur.ai_lab_3.circleRadius
 import ru.alexbur.ai_lab_3.data.CircleColumn
 import ru.alexbur.ai_lab_3.data.CircleOffset
 import ru.alexbur.ai_lab_3.data.CircleState
-import ru.alexbur.ai_lab_3.data.PADDING
 import ru.alexbur.ai_lab_3.data.calculateCircleCount
 import ru.alexbur.ai_lab_3.data.processor.CircleFieldProcessor
 
@@ -41,7 +40,7 @@ import ru.alexbur.ai_lab_3.data.processor.CircleFieldProcessor
 fun CircleFieldComposable(
     modifier: Modifier
 ) {
-    val fieldProcessor = remember { CircleFieldProcessor(CIRCLE_RADIUS, PADDING) }
+    val fieldProcessor = remember { CircleFieldProcessor() }
     val modifiableField = remember { mutableStateListOf<CircleColumn>() }
     val initialField = remember { mutableStateListOf<CircleColumn>() }
 
@@ -138,7 +137,7 @@ private fun DrawScope.drawCircles(field: SnapshotStateList<CircleColumn>) {
             }
             drawCircle(
                 color,
-                CIRCLE_RADIUS,
+                circleRadius,
                 Offset(it.centerX.toFloat(), it.centerY.toFloat())
             )
         }

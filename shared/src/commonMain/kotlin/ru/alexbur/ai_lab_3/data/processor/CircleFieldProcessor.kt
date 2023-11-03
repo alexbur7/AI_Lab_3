@@ -1,16 +1,18 @@
 package ru.alexbur.ai_lab_3.data.processor
 
+import ru.alexbur.ai_lab_3.MINIMUM_HAPPINESS_VALUE
+import ru.alexbur.ai_lab_3.circleRadius
 import ru.alexbur.ai_lab_3.data.Circle
 import ru.alexbur.ai_lab_3.data.CircleColumn
 import ru.alexbur.ai_lab_3.data.CircleOffset
 import ru.alexbur.ai_lab_3.data.CircleState
-import ru.alexbur.ai_lab_3.data.MINIMUM_HAPPINESS_VALUE
 import ru.alexbur.ai_lab_3.data.forEachCircle
 import ru.alexbur.ai_lab_3.data.helper.CircleFieldHelper
+import ru.alexbur.ai_lab_3.padding
 
-class CircleFieldProcessor(private val circleRadius: Float, private val padding: Float) {
+class CircleFieldProcessor {
 
-    private val circleField: CircleFieldHelper = CircleFieldHelper(circleRadius)
+    private val circleField: CircleFieldHelper by lazy(LazyThreadSafetyMode.NONE) { CircleFieldHelper() }
 
     fun init(totalCirclesX: Int, totalCirclesY: Int): List<CircleColumn> {
         circleField.initFields(totalCirclesX, totalCirclesY)
@@ -44,12 +46,9 @@ class CircleFieldProcessor(private val circleRadius: Float, private val padding:
 
     fun moveTappedCircle(offset: CircleOffset): List<CircleColumn> {
         val circle = circleField.getTouchedCircle(offset)
-        println("1" + circleField.modifiableField)
         circle?.let {
-            println(circle)
             moveCircleIfUnhappy(circle)
         }
-        println("2" + circleField.modifiableField)
         return circleField.modifiableField.toList()
     }
 
@@ -63,32 +62,25 @@ class CircleFieldProcessor(private val circleRadius: Float, private val padding:
         val happiness = getCircleHappiness(circle)
 
         if (happiness < MINIMUM_HAPPINESS_VALUE) {
-            val emptyCircle =
-                newField
-                    .flatMap { it.column }
-                    .filter { it.state == CircleState.EMPTY }
-                    .random()
+            val emptyCircle = newField.flatMap { it.column }.filter { it.state == CircleState.EMPTY }.random()
 
             swapElements(emptyCircle, circle)
         }
     }
 
     private fun getCircleHappiness(circle: Circle): Float {
-        println(circle.state)
-        if (circle.state != CircleState.EMPTY) {
-            var goodNeighbours = 0f
+        if (circle.state == CircleState.EMPTY) return DEFAULT_HAPPINESS
+        var goodNeighbours = 0f
 
-            val neighbours = circleField.getCircleNeighbours(circle)
+        val neighbours = circleField.getCircleNeighbours(circle)
 
-            neighbours.forEach {
-                if (circle.state == it.state) {
-                    goodNeighbours++
-                }
+        neighbours.forEach {
+            if (circle.state == it.state) {
+                goodNeighbours++
             }
-
-            return goodNeighbours / neighbours.size
         }
-        return 1f
+
+        return goodNeighbours / neighbours.size
     }
 
     private fun swapElements(
@@ -171,5 +163,9 @@ class CircleFieldProcessor(private val circleRadius: Float, private val padding:
         }
         circleField.modifiableField[emptyCircleCoords.first] =
             circleField.modifiableField[emptyCircleCoords.first].copy(column = resultColumn)
+    }
+
+    companion object {
+        private const val DEFAULT_HAPPINESS = 1f
     }
 }

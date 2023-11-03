@@ -1,12 +1,13 @@
 package ru.alexbur.ai_lab_3.data.helper
 
+import ru.alexbur.ai_lab_3.circleRadius
 import ru.alexbur.ai_lab_3.data.Circle
 import ru.alexbur.ai_lab_3.data.CircleColumn
 import ru.alexbur.ai_lab_3.data.CircleOffset
 import ru.alexbur.ai_lab_3.data.CircleState
 import ru.alexbur.ai_lab_3.data.findCircle
 
-class CircleFieldHelper(private val circleRadius: Float) {
+class CircleFieldHelper() {
 
     val initialField = mutableListOf<CircleColumn>()
     val modifiableField = mutableListOf<CircleColumn>()

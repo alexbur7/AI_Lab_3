@@ -1,5 +1,8 @@
 package ru.alexbur.ai_lab_3.data
 
+import ru.alexbur.ai_lab_3.circleRadius
+import ru.alexbur.ai_lab_3.padding
+
 internal fun List<CircleColumn>.forEachCircle(action: (Circle) -> Unit) {
     forEach { column -> column.column.forEach { circle -> action(circle) } }
 }
@@ -13,10 +16,10 @@ internal fun List<CircleColumn>.findCircle(predicate: (Circle) -> Boolean): Circ
 }
 
 fun calculateCircleCount(width: Float, height: Float): Pair<Int, Int> {
-    val rawWidth = width - 2 * PADDING
-    val rawHeight = height - 2 * PADDING
+    val rawWidth = width - 2 * padding
+    val rawHeight = height - 2 * padding
 
-    val totalCirclesX = (rawWidth / (2 * CIRCLE_RADIUS + PADDING)).toInt()
-    val totalCirclesY = (rawHeight / (2 * CIRCLE_RADIUS + PADDING)).toInt()
+    val totalCirclesX = (rawWidth / (2 * circleRadius + padding)).toInt()
+    val totalCirclesY = (rawHeight / (2 * circleRadius + padding)).toInt()
     return totalCirclesX to totalCirclesY
 }
